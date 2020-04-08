@@ -25,6 +25,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "@elasticms/admin-menu": "^1.0.1",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
