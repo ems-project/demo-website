@@ -4,11 +4,14 @@ window.$ = $;
 window.jQuery = $;
 
 import '../css/bootstrap.scss';
-import adminMenu from '@elasticms/admin-menu';
 require('bootstrap');
 
+import adminMenu from '@elasticms/admin-menu';
 import back2top from "./back2top";
+import ajaxSearch from "./ajax-search";
 
-back2top();
 adminMenu();
+back2top();
+ajaxSearch();
+
 console.log('Demo website loaded!');
