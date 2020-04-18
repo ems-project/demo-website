@@ -1,7 +1,11 @@
 #dump-modal {
   overflow:hidden;
   position:fixed;
-  left:5rem;
-  bottom:2.5rem;
+  left: 0;
+  bottom: 2rem;
   display: block;
+
+  @include media-breakpoint-down(md) {
+    display: none !important;
+  }
 }
