@@ -37,7 +37,7 @@ export default function ajaxSearch() {
                         return;
                     }
                     const target = $('#'+id);
-                    if (target.attr('role') === 'status') {
+                    if (msg.page == 0 || target.attr('role') === 'status') {
                         target.html(item.contents());
                     }
                     else {
