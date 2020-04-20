@@ -50,7 +50,7 @@ export default function ajaxSearch() {
                 }
 
                 if (msg.title_header) {
-                    document.title = msg.title_header;
+                    document.title = $('<textarea />').html(msg.title_header).text();
                 }
 
                 if (msg.load_more_path) {
