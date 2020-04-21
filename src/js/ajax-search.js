@@ -16,7 +16,7 @@
  * Dom element with data-ajax-search-loading-show class are show during ajax call and hiddent after (i.e. loaders)
  *
  */
-export default function ajaxSearch() {
+export default function ajaxSearch(submitOnKeyStroke = false) {
     const $ = require('jquery');
     let requestInProgress = false;
     let nextRequest;
@@ -133,8 +133,10 @@ export default function ajaxSearch() {
 
     forms.change(formChangeFunction);
     forms.submit(formSubmitFunction);
-    //The following lines can be uncommented to allow submit on key stroke
-    // forms.find("input[type=text]").on('input', formSubmitFunction);
-    // forms.find("textarea").on('input', formSubmitFunction);
+    if (submitOnKeyStroke) {
+        //The following lines allow submit on key stroke
+        forms.find("input[type=text]").on('input', formSubmitFunction);
+        forms.find("textarea").on('input', formSubmitFunction);
+    }
 
 }
