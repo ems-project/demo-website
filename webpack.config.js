@@ -34,6 +34,7 @@ module.exports = {
     context: path.resolve(__dirname, './'),
     entry: {
         'index': './src/js/bootstrap.js',
+        'admin': './src/js/admin.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
