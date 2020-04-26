@@ -20,6 +20,7 @@ export default function ajaxSearch(submitOnKeyStroke = false) {
     const $ = require('jquery');
     let requestInProgress = false;
     let nextRequest;
+    let pushData = null;
 
     $('.ajax-search-hide').hide();
     $('.ajax-search-empty').empty();
@@ -53,11 +54,11 @@ export default function ajaxSearch(submitOnKeyStroke = false) {
                     document.title = $('<textarea />').html(msg.title_header).text();
                 }
 
-                if (msg.load_more_path) {
+                if (msg.load_more_path && msg.load_more_path !== '') {
                     $('[data-ajax-search-load-more-url]').show().attr('data-ajax-search-load-more-url', msg.load_more_path);
                 }
                 else {
-                    $('[data-ajax-search-load-more-url]').hide();
+                    $('[data-ajax-search-load-more-url]').hide().attr('data-ajax-search-load-more-url', '');
                 }
 
             }
@@ -120,6 +121,21 @@ export default function ajaxSearch(submitOnKeyStroke = false) {
 
     const formSubmitFunction = function (event, clearAriaLive = true) {
         event.preventDefault();
+
+        const arias = [];
+        $('[aria-live]').each(function() {
+            const id = $(this).attr('id');
+            if (id) {
+                arias[id] = ($(this).html());
+            }
+        });
+        pushData = {
+            title: $('h1').text(),
+            documentTitle: document.title,
+            arias: arias,
+            loadMorePath: $('[data-ajax-search-load-more-url]:first-child').attr('data-ajax-search-load-more-url'),
+        };
+
         if (clearAriaLive) {
             $('[aria-live]').empty();
         }
@@ -127,12 +143,35 @@ export default function ajaxSearch(submitOnKeyStroke = false) {
             $('[aria-live]').not('[role=status]').empty();
         }
 
+        history.pushState(pushData, pushData.title, forms.attr('action') + '?' + forms.serialize());
         doAjaxRequest(forms.attr('data-ajax-search-form') + '?' + forms.serialize());
     };
 
+    window.onpopstate = function(event) {
+        $('[aria-live]').each(function() {
+            const id = $(this).attr('id');
+            if (id && pushData.arias[id]) {
+                $('#'+id).html(pushData.arias[id]);
+            }
+        });
+        $('h1').text(pushData.title);
+        document.title = pushData.documentTitle;
+
+        if (pushData.loadMorePath && pushData.loadMorePath !== '') {
+            $('[data-ajax-search-load-more-url]').show().attr('data-ajax-search-load-more-url', pushData.loadMorePath);
+        }
+        else {
+            $('[data-ajax-search-load-more-url]').hide().attr('data-ajax-search-load-more-url', '');
+        }
+
+        pushData = event.state;
+    }
+
 
     forms.change(formChangeFunction);
-    forms.submit(formSubmitFunction);
+    forms.submit(function(event) {
+        event.preventDefault();
+    });
     if (submitOnKeyStroke) {
         //The following lines allow submit on key stroke
         forms.find("input[type=text]").on('input', formSubmitFunction);
