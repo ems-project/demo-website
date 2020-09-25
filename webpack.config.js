@@ -4,25 +4,14 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     plugins: [
-        new CopyPlugin([
-            {
-                from: './src/img',
-                to: 'img'
-            },
-        ], {
-            ignore: [{
-                dots: true,
-                glob: 'samples/**/*'
-            },{
-                dots: true,
-                glob: 'adapters/**/*'
-            },{
-                dots: true,
-                glob: '.github/**/*'
-            },{
-                dots: true,
-                glob: '**/*.php'
-            }]
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: 'src/img/*',
+                    to: 'img/[name].[ext]',
+                    // to options: [path][name].[contenthash].[ext]'
+                },
+            ],
         }),
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
@@ -33,8 +22,8 @@ module.exports = {
     ],
     context: path.resolve(__dirname, './'),
     entry: {
-        'index': './src/js/bootstrap.js',
-        'admin': './src/js/admin.js',
+        'app': './src/app.js',
+        'admin': './src/admin.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -91,9 +80,14 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: {
+                use: [{
                     loader: 'babel-loader',
-                }
+                    options: {
+                        presets: [
+                            ['@babel/preset-env']
+                        ]
+                    }
+                }]
             }
         ]
     }

@@ -3,14 +3,13 @@ const $ = require('jquery');
 window.$ = $;
 window.jQuery = $;
 
-import '../css/bootstrap.scss';
-require('bootstrap');
+import './css/bootstrap.scss';
 
 import adminMenu from '@elasticms/admin-menu';
-import back2top from "./back2top";
-import ajaxSearch from "./ajax-search";
-import toc from "./toc";
-import externalLink from "./external-link";
+import back2top from "./js/back2top";
+import ajaxSearch from "./js/ajax-search";
+import toc from "./js/toc";
+import externalLink from "./js/external-link";
 
 adminMenu();
 back2top();

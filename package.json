@@ -4,6 +4,11 @@
   "description": "A basic elasticms NPM project (without any customization)",
   "repository": "https://github.com/ems-project/npm-demo-website",
   "main": "index.js",
+  "browserslist": [
+    "> 2%",
+    "not dead",
+    "IE 11"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --mode development --watch",
@@ -19,12 +24,12 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "babel-loader": "^8.1.0",
-    "bestzip": "^2.1.5",
-    "copy-webpack-plugin": "^5.1.1",
+    "bestzip": "^2.1.7",
+    "copy-webpack-plugin": "^6.1.1",
     "css-loader": "^3.4.2",
     "file-loader": "^6.0.0",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "url-loader": "^4.0.0",
     "webpack": "^4.42.1",
@@ -34,7 +39,7 @@
     "@elasticms/admin-menu": "^1.0.1",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "bootstrap": "^4.4.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "popper.js": "^1.16.1"
   }
 }
