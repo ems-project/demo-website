@@ -1,0 +1,44 @@
+version: "3.3"
+
+services:
+
+  traefik:
+    image: "traefik:v2.2"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8888:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  skeleton:
+    image: elasticms/website-skeleton
+    container_name: skeleton
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+      - APP_ENV=dev
+      - PHP_FPM_MAX_CHILDREN=8
+      - PHP_FPM_REQUEST_MAX_MEMORY_IN_MEGABYTES=64
+      - CONTAINER_HEAP_PERCENT=0.8
+      - MAILER_URL=null://localhost
+      - EMS_FROM_EMAIL_ADDRESS=dev-skeleton@example.com
+      - EMS_FROM_EMAIL_NAME=DevSkeleton
+    volumes:
+      - ./configs:/opt/configs
+      - ./assets:/var/lib/ems
+      - ./dist:/opt/src/public/bundles/emsch_assets:ro
+#      - ../EMSCommonBundle:/opt/src/vendor/elasticms/common-bundle
+#      - ../EMSFormBundle:/opt/src/vendor/elasticms/form-bundle
+#      - ../EMSClientHelperBundle:/opt/src/vendor/elasticms/client-helper-bundle
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.elasticms-template.rule=Host(`elasticms-template.localhost`)"
+      - "traefik.http.routers.elasticms-template.entrypoints=web"

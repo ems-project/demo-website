@@ -1,3 +1,3 @@
 'use strict';
-import "~bootstrap";
+import './css/bootstrap.scss';
 import './css/admin.scss';
